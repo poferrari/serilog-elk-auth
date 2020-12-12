@@ -27,8 +27,10 @@ namespace ElasticKibanaNetCore.Web
                 {
                     AutoRegisterTemplate = true,
                     ModifyConnectionSettings = x => x.BasicAuthentication(elasticUsername, elasticPassword),
-                    IndexFormat = elasticIndex
+                    IndexFormat = $"{elasticIndex}-{{0:yyyy.MM.dd}}",
+                    DeadLetterIndexName = $"{elasticIndex}-deadletter-{{0:yyyy.MM.dd}}"
                 })
+                .WriteTo.File($"./failures.log", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
         }
 
