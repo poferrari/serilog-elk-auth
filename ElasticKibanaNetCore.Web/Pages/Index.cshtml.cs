@@ -27,7 +27,7 @@ namespace ElasticKibanaNetCore.Web.Pages
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Seu código está bugado.");
+                _logger.LogError(ex, "Seu código está com bug.");
 
                 _logger.LogWarning(ex, "Deu muito ruim.");
 
