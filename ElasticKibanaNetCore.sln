@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElasticKibanaNetCore.Web", "ElasticKibanaNetCore.Web\ElasticKibanaNetCore.Web.csproj", "{D473154E-0195-48E3-99E9-25B3754221C6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElasticKibanaNetCore.Api", "ElasticKibanaNetCore.Api\ElasticKibanaNetCore.Api.csproj", "{4C2691CD-23ED-4D81-809D-587020BAA127}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D473154E-0195-48E3-99E9-25B3754221C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D473154E-0195-48E3-99E9-25B3754221C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D473154E-0195-48E3-99E9-25B3754221C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D473154E-0195-48E3-99E9-25B3754221C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C2691CD-23ED-4D81-809D-587020BAA127}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C2691CD-23ED-4D81-809D-587020BAA127}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C2691CD-23ED-4D81-809D-587020BAA127}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C2691CD-23ED-4D81-809D-587020BAA127}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {D62DA907-C309-4433-965C-2736AFB531EE}
+		SolutionGuid = {D96FC746-B25A-4A25-8BB5-970DB54C2B4A}
 	EndGlobalSection
 EndGlobal
