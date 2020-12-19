@@ -15,5 +15,5 @@ Kibana: http://localhost:5601/app/kibana#/home?_g=()
 
 # Referências
 
-https://medium.com/@rcarneironet/centralizando-logs-com-elasticsearch-kibana-serilog-docker-e-net-core-3-1-a5c346f353c3
-https://medium.com/@hgmauri/utilizando-o-elasticsearch-com-nest-no-net-core-3-1-cd83d559dc5c
+* https://medium.com/@rcarneironet/centralizando-logs-com-elasticsearch-kibana-serilog-docker-e-net-core-3-1-a5c346f353c3
+* https://medium.com/@hgmauri/utilizando-o-elasticsearch-com-nest-no-net-core-3-1-cd83d559dc5c
