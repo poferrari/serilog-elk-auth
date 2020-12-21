@@ -1,4 +1,7 @@
+using ElasticKibanaNetCore.Api.Extensions;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
@@ -23,7 +26,10 @@ namespace ElasticKibanaNetCore.Api
         {
             services.AddRouting(options => options.LowercaseUrls = true);
 
+            services.AddHealthCheckApi(Configuration);
+
             services.AddResponseCompression();
+
             services.Configure<GzipCompressionProviderOptions>(options =>
             {
                 options.Level = CompressionLevel.Optimal;
@@ -45,9 +51,18 @@ namespace ElasticKibanaNetCore.Api
 
             app.UseAuthorization();
 
+            app.UseHealthCheckApi();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+
+                endpoints.MapHealthChecks("/hc",
+                    new HealthCheckOptions
+                    {
+                        Predicate = _ => true,
+                        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+                    });
             });
         }
     }
