@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Serilog;
+using Serilog.Events;
 using Serilog.Filters;
 using Serilog.Sinks.Elasticsearch;
 using System;
+using System.Diagnostics;
 
 namespace ElasticKibanaNetCore.Api.Extensions
 {
@@ -28,10 +30,20 @@ namespace ElasticKibanaNetCore.Api.Extensions
                 {
                     AutoRegisterTemplate = true,
                     ModifyConnectionSettings = x => x.BasicAuthentication(elasticUsername, elasticPassword),
-                    IndexFormat = $"{elasticIndex}-{{0:yyyy.MM.dd}}"
+                    IndexFormat = $"{elasticIndex}-{{0:yyyy.MM.dd}}",
+                    FailureCallback = e => FailureCallbackEvent(e),
+                    EmitEventFailure = EmitEventFailureHandling.WriteToFailureSink |
+                                       EmitEventFailureHandling.RaiseCallback |
+                                       EmitEventFailureHandling.ThrowException,
+                    FailureSink = new LoggerConfiguration().WriteTo.File($"./failures.log", rollingInterval: RollingInterval.Day).CreateLogger()
                 })
                 .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}")
                 .CreateLogger();
+        }
+
+        private static void FailureCallbackEvent(LogEvent logEvent)
+        {
+            Debug.WriteLine("Unable to submit event " + logEvent.MessageTemplate);
         }
     }
 }

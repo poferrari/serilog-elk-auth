@@ -32,7 +32,15 @@ namespace ElasticKibanaNetCore.Api.Controllers
             var rng = new Random();
             if (rng.Next() % 3 == 0)
             {
-                throw new Exception("Ops, não foi possível prosseguir.");
+                var ex = new Exception("Ops, não foi possível prosseguir.");
+
+                _logger.LogError(ex, "Código está com bug.");
+
+                _logger.LogWarning(ex, "Deu muito ruim.");
+
+                _logger.LogCritical(ex, "Já era.");
+
+                throw ex;
             }
 
             try
