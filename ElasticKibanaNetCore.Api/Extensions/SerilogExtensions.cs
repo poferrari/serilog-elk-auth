@@ -28,6 +28,7 @@ namespace ElasticKibanaNetCore.Api.Extensions
                 .Filter.ByExcluding(z => z.MessageTemplate.Text.Contains("erro de negócio"))
                 .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(elasticUri))
                 {
+                    MinimumLogEventLevel = LogEventLevel.Warning,
                     AutoRegisterTemplate = true,
                     ModifyConnectionSettings = x => x.BasicAuthentication(elasticUsername, elasticPassword),
                     IndexFormat = $"{elasticIndex}-{{0:yyyy.MM.dd}}",

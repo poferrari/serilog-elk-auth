@@ -34,12 +34,6 @@ namespace ElasticKibanaNetCore.Api.Controllers
             {
                 var ex = new Exception("Ops, não foi possível prosseguir.");
 
-                _logger.LogError(ex, "Código está com bug.");
-
-                _logger.LogWarning(ex, "Deu muito ruim.");
-
-                _logger.LogCritical(ex, "Já era.");
-
                 throw ex;
             }
 

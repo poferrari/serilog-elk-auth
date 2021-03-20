@@ -1,4 +1,5 @@
 using ElasticKibanaNetCore.Api.Extensions;
+using ElasticKibanaNetCore.Api.Middlewares;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -7,7 +8,6 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Serilog;
 using System.IO.Compression;
 
@@ -26,10 +26,11 @@ namespace ElasticKibanaNetCore.Api
         {
             services.AddRouting(options => options.LowercaseUrls = true);
 
+            services.AddElasticsearch(Configuration);
+            services.AddServices();
             services.AddHealthCheckApi(Configuration);
 
             services.AddResponseCompression();
-
             services.Configure<GzipCompressionProviderOptions>(options =>
             {
                 options.Level = CompressionLevel.Optimal;
@@ -38,14 +39,17 @@ namespace ElasticKibanaNetCore.Api
             services.AddControllers();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            loggerFactory.AddSerilog();
+            app.UseSerilogRequestLogging(opts => opts.EnrichDiagnosticContext = LogEnricherExtensions.EnrichFromRequest);
+
+            app.UseMiddleware<RequestSerilLogMiddleware>();
+            app.UseMiddleware<ErrorHandlingMiddleware>();
 
             app.UseRouting();
 
@@ -56,7 +60,6 @@ namespace ElasticKibanaNetCore.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-
                 endpoints.MapHealthChecks("/hc",
                     new HealthCheckOptions
                     {

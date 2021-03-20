@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using ElasticKibanaNetCore.Api.HealthCheck;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -11,11 +12,16 @@ namespace ElasticKibanaNetCore.Api.Extensions
         public static void AddHealthCheckApi(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddHealthChecks()
-                .AddCheck("Situação", () => HealthCheckResult.Healthy());
+                .AddCheck("Situação", () => HealthCheckResult.Healthy())
+                .AddCheck<MyHealthCheck>("Dependências")
+                .AddElasticsearch(
+                    configuration.GetConnectionString("Elasticsearch"), "ElasticSearch", HealthStatus.Degraded, new[] { "elastic", "search" });
 
             services.AddHealthChecksUI(config =>
             {
                 config.SetEvaluationTimeInSeconds(5);
+                config.AddHealthCheckEndpoint("Host Externo", ObterHostNameApiHealthCheck());
+                config.AddHealthCheckEndpoint("Aplicação", $"https://localhost:5001/hc");
 
             }).AddInMemoryStorage();
         }
