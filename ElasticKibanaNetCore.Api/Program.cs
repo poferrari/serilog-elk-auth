@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace ElasticKibanaNetCore.Api
@@ -20,6 +21,13 @@ namespace ElasticKibanaNetCore.Api
         public static void Main(string[] args)
         {
             SerilogExtensions.AddSerilog(Configuration);
+
+            Serilog.Debugging.SelfLog.Enable(msg =>
+            {
+                Debug.WriteLine(msg);
+            });
+
+            Serilog.Debugging.SelfLog.Enable(Console.Error);
 
             try
             {

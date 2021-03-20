@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ElasticKibanaNetCore.Api.Tests;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,13 @@ namespace ElasticKibanaNetCore.Api.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ILogsApplication _actorsApplication;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger,
+            ILogsApplication actorsApplication)
         {
             _logger = logger;
-
+            _actorsApplication = actorsApplication;
             _logger.LogDebug("Chamou o construtor do WeatherForecastController.");
         }
 
@@ -28,6 +31,8 @@ namespace ElasticKibanaNetCore.Api.Controllers
         public IEnumerable<WeatherForecast> Get()
         {
             _logger.LogTrace("Trace no Get do WeatherForecastController.");
+
+            //_actorsApplication.PostLogsSample();
 
             var rng = new Random();
             if (rng.Next() % 3 == 0)
